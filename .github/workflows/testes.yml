@@ -13,7 +13,6 @@ jobs:
         with:
           commands: |
             ./mvnw test
-          dir: src
           java-cache: maven
           java-distribution: temurin
           java-version: "17"
