@@ -46,26 +46,9 @@ jobs:
 
     - name: Coverage per Test Execution
       run: mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
-
-    - name: Upload target folder
-      uses: actions/upload-artifact@v2
-      with:
-        name: target
-        path: |
-          ${{ github.workspace }}/target
-          ${{ github.workspace }}/reports
       
     - name: Sonar Code Analysis
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=gabi-teste_vollmed
-
-    - name: Test Report
-      uses: dorny/test-reporter@v1
-      if: success() || failure()
-      with:
-        name: Test Results
-        path: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
-        reporter: java-junit
-        java-version: 17
